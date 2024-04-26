@@ -30,7 +30,7 @@ while True:
 
     elif opcao == "s":
         saque = float(input("Insira um valor que deseja sacar: "))
-        if (numero_saques < LIMITE_SAQUES) and (saque <= limite) and (saque <= saldo):
+        if (numero_saques < LIMITE_SAQUES) and (saque <= limite) and (saque <= saldo) and (saque > 0):
             saldo -= saque
             numero_saques += 1
             extrato += f"Saque: R$ {saque:.2f}\n"
