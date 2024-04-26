@@ -1,10 +1,10 @@
 menu = """ 
-        +- Sistema Bancário -+
-        | [d] Depositar      |
-        | [s] Sacar          |
-        | [e] Extrato        |
-        | [q] Sair           |
-        +--------------------+
++--------- SISTEMA BANCÁRIO ---------+
+|           [d] Depositar            |
+|           [s] Sacar                |
+|           [e] Extrato              |
+|           [q] Sair                 |
++------------------------------------+
 =>"""
 
 saldo = 0
@@ -22,7 +22,7 @@ while True:
 
         if deposito > 0:
             saldo += deposito
-            extrato += f"Depósito: R$ {deposito:.2f}\n"
+            extrato += "|" + f"Depósito: R$ {deposito:.2f}".center(36) + "|\n"
             print("Deposito feito com sucesso")
 
         else:
@@ -30,17 +30,36 @@ while True:
 
     elif opcao == "s":
         saque = float(input("Insira um valor que deseja sacar: "))
-        if (numero_saques < LIMITE_SAQUES) and (saque <= limite) and (saque <= saldo) and (saque > 0):
+
+        excedeu_saques = numero_saques >= LIMITE_SAQUES
+        excedeu_limite = saque > limite
+        excedeu_saldo = saque > saldo
+
+        if excedeu_saques:
+            status_operacao = "Operação falhou! Número máximo de saques excedido."
+
+        elif excedeu_limite:
+            status_operacao = "Operação falhou! O valor do saque excede o limite."
+
+        elif excedeu_saldo:
+            status_operacao = "Operação falhou! Você não tem saldo suficiente."
+
+        elif saque > 0:
             saldo -= saque
             numero_saques += 1
-            extrato += f"Saque: R$ {saque:.2f}\n"
-            print("Saque efetuado com sucesso! Verifique o extrato para mais informações.")
+            extrato += "|" + f"Saque: R$ {saque:.2f}".center(36) + "|\n"
+            status_operacao = "Saque efetuado com sucesso! Verifique o extrato para mais informações."
+
         else:
-            print("Não foi possível sacar o dinheiro. Saldo insuficiente ou limite de saques atingido.")
+            status_operacao ="Operação falhou! Valor informado é inválido."
+        
+        print(status_operacao)
 
     elif opcao == "e":
-        print(extrato)
-        print(f"Saldo da conta: R$ {saldo:.2f}")
+        print("+------------- EXTRATO --------------+")
+        print("| Não foram realizadas movimentações | " if not extrato else extrato.rstrip())
+        print("|"+f"Saldo da conta: R$ {saldo:.2f}".center(36)+"|")
+        print("+------------------------------------+")
 
     elif opcao == "q":
         break
