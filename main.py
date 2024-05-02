@@ -73,13 +73,13 @@ def criar_usuario(usuarios):
     data_nascimento = input("Informe a data de nascimento (dd-mm-aaaa): ")
     endereco = input("Informe o endereco (Logradouro, nº - Bairro - Cidade/UF): ")
 
-    usuarios.append({"nome":nome, "data_nascimento":data_nascimento, "cpf":cpf, "endereco":endereco})
+    usuarios.append({"nome": nome, "data_nascimento": data_nascimento, "cpf": cpf, "endereco": endereco})
 
     print("Usuário criado com sucesso!")
 
 
 def filtrar_usuario(cpf, usuarios):
-    usuario_filtrado = [usuario for usuario in usuarios if usuarios["cpf"] == cpf]
+    usuario_filtrado = [usuario for usuario in usuarios if usuario["cpf"] == cpf]
     return usuario_filtrado[0] if usuario_filtrado else None
 
 
