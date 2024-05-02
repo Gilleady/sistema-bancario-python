@@ -7,6 +7,7 @@ def menu():
     |           [d] Depositar            |
     |           [s] Sacar                |
     |           [e] Extrato              |
+    |           [u] Novo Usuário         |
     |           [q] Sair                 |
     +------------------------------------+
     =>"""
@@ -60,11 +61,34 @@ def exibir_extrato(saldo,/,*,extrato):
     print("+------------------------------------+")
 
 
+def criar_usuario(usuarios):
+    cpf = input("Informe o CPF que deseja cadastrar (somente números):")
+    usuario_filtrado = filtrar_usuario(cpf, usuarios)
+
+    if usuario_filtrado:
+        print("\nUsuário já cadastrado com CPF informado!")
+        return
+    
+    nome = input("Informe o nome completo: ")
+    data_nascimento = input("Informe a data de nascimento (dd-mm-aaaa): ")
+    endereco = input("Informe o endereco (Logradouro, nº - Bairro - Cidade/UF): ")
+
+    usuarios.append({"nome":nome, "data_nascimento":data_nascimento, "cpf":cpf, "endereco":endereco})
+
+    print("Usuário criado com sucesso!")
+
+
+def filtrar_usuario(cpf, usuarios):
+    usuario_filtrado = [usuario for usuario in usuarios if usuarios["cpf"] == cpf]
+    return usuario_filtrado[0] if usuario_filtrado else None
+
+
 def main():
     saldo = 0
     limite = 500
     extrato = ""
     numero_saques = 0
+    usuarios = []
     LIMITE_SAQUES = 3
 
     while True:
@@ -90,6 +114,9 @@ def main():
 
         elif opcao == "e":
             exibir_extrato(saldo, extrato=extrato)
+
+        elif opcao == "u":
+            criar_usuario(usuarios)
 
         elif opcao == "q":
             break
