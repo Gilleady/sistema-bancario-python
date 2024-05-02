@@ -8,6 +8,7 @@ def menu():
     |           [s] Sacar                |
     |           [e] Extrato              |
     |           [u] Novo Usuário         |
+    |           [c] Nova Conta           |
     |           [q] Sair                 |
     +------------------------------------+
     =>"""
@@ -83,13 +84,28 @@ def filtrar_usuario(cpf, usuarios):
     return usuario_filtrado[0] if usuario_filtrado else None
 
 
+def criar_conta(contas, agencia, usuarios):
+    cpf = input("Informe o CPF do usuário (somente números):")
+    usuario_filtrado = filtrar_usuario(cpf, usuarios)
+
+    if usuario_filtrado:
+        numero_conta = len(contas) + 1
+        contas.append({"agencia":agencia, "numero_conta":numero_conta, "usuario":usuario_filtrado})
+        print("Conta criada com sucesso!")
+    else:
+        print("Usuário não encontrado, operação de criação de conta cancelada!")
+
+
 def main():
+    LIMITE_SAQUES = 3
+    AGENCIA = "0001"
+
     saldo = 0
     limite = 500
     extrato = ""
     numero_saques = 0
     usuarios = []
-    LIMITE_SAQUES = 3
+    contas = []
 
     while True:
 
@@ -117,6 +133,9 @@ def main():
 
         elif opcao == "u":
             criar_usuario(usuarios)
+
+        elif opcao == "c":
+            criar_conta(contas, AGENCIA, usuarios)
 
         elif opcao == "q":
             break
