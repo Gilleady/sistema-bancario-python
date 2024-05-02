@@ -12,6 +12,14 @@ def menu():
     =>"""
     return input(textwrap.dedent(menu))
 
+
+def exibir_extrato(saldo,/,*,extrato):
+    print("+------------- EXTRATO --------------+")
+    print("| Não foram realizadas movimentações | " if not extrato else extrato.rstrip())
+    print("|"+f"Saldo da conta: R$ {saldo:.2f}".center(36)+"|")
+    print("+------------------------------------+")
+
+
 def sacar(*,saldo, valor, extrato, limite, numero_saques, limite_saques):
     excedeu_saques = numero_saques >= limite_saques
     excedeu_limite = valor > limite
@@ -38,6 +46,7 @@ def sacar(*,saldo, valor, extrato, limite, numero_saques, limite_saques):
     print(status_operacao)
 
     return saldo, extrato, numero_saques
+
 
 def main():
     saldo = 0
@@ -74,10 +83,7 @@ def main():
             )
 
         elif opcao == "e":
-            print("+------------- EXTRATO --------------+")
-            print("| Não foram realizadas movimentações | " if not extrato else extrato.rstrip())
-            print("|"+f"Saldo da conta: R$ {saldo:.2f}".center(36)+"|")
-            print("+------------------------------------+")
+            exibir_extrato(saldo, extrato=extrato)
 
         elif opcao == "q":
             break
