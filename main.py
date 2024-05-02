@@ -9,6 +9,7 @@ def menu():
     |           [e] Extrato              |
     |           [u] Novo Usuário         |
     |           [c] Nova Conta           |
+    |           [l] Listar Contas        |
     |           [q] Sair                 |
     +------------------------------------+
     =>"""
@@ -96,6 +97,17 @@ def criar_conta(contas, agencia, usuarios):
         print("Usuário não encontrado, operação de criação de conta cancelada!")
 
 
+def listar_contas(contas):
+    linha = "+" + "-" * 36 + "+\n"
+    for conta in contas:
+        linha += "|" + f"Agência: {conta['agencia']}".center(36) + "|\n"
+        linha += "|" + f"C/C: {conta['numero_conta']}".center(36) + "|\n"
+        linha += "|" + f"Titular: {conta['usuario']['nome']}".center(36) + "|\n"
+        linha += "+" + "-" * 36 + "+\n"
+
+    print(linha)
+
+
 def main():
     LIMITE_SAQUES = 3
     AGENCIA = "0001"
@@ -136,6 +148,9 @@ def main():
 
         elif opcao == "c":
             criar_conta(contas, AGENCIA, usuarios)
+
+        elif opcao == "l":
+            listar_contas(contas)
 
         elif opcao == "q":
             break
