@@ -13,11 +13,16 @@ def menu():
     return input(textwrap.dedent(menu))
 
 
-def exibir_extrato(saldo,/,*,extrato):
-    print("+------------- EXTRATO --------------+")
-    print("| Não foram realizadas movimentações | " if not extrato else extrato.rstrip())
-    print("|"+f"Saldo da conta: R$ {saldo:.2f}".center(36)+"|")
-    print("+------------------------------------+")
+def depositar(saldo, valor, extrato,/):
+    if valor > 0:
+        saldo += valor
+        extrato += "|" + f"Depósito: R$ {valor:.2f}".center(36) + "|\n"
+        print("Deposito feito com sucesso")
+
+    else:
+        print("Valor inválido para depósito. Tente novamente!")
+
+    return saldo, extrato
 
 
 def sacar(*,saldo, valor, extrato, limite, numero_saques, limite_saques):
@@ -48,6 +53,13 @@ def sacar(*,saldo, valor, extrato, limite, numero_saques, limite_saques):
     return saldo, extrato, numero_saques
 
 
+def exibir_extrato(saldo,/,*,extrato):
+    print("+------------- EXTRATO --------------+")
+    print("| Não foram realizadas movimentações | " if not extrato else extrato.rstrip())
+    print("|"+f"Saldo da conta: R$ {saldo:.2f}".center(36)+"|")
+    print("+------------------------------------+")
+
+
 def main():
     saldo = 0
     limite = 500
@@ -60,15 +72,9 @@ def main():
         opcao = menu()
 
         if opcao == "d":
-            deposito = float(input("Insira um valor para depósito: "))
+            valor = float(input("Insira um valor para depósito: "))
 
-            if deposito > 0:
-                saldo += deposito
-                extrato += "|" + f"Depósito: R$ {deposito:.2f}".center(36) + "|\n"
-                print("Deposito feito com sucesso")
-
-            else:
-                print("Valor inválido para depósito. Tente novamente!")
+            saldo, extrato = depositar(saldo, valor, extrato)
 
         elif opcao == "s":
             valor = float(input("Insira um valor que deseja sacar: "))
