@@ -1,11 +1,16 @@
-menu = """ 
-+--------- SISTEMA BANCÁRIO ---------+
-|           [d] Depositar            |
-|           [s] Sacar                |
-|           [e] Extrato              |
-|           [q] Sair                 |
-+------------------------------------+
-=>"""
+import textwrap
+
+
+def menu():
+    menu = """ 
+    +--------- SISTEMA BANCÁRIO ---------+
+    |           [d] Depositar            |
+    |           [s] Sacar                |
+    |           [e] Extrato              |
+    |           [q] Sair                 |
+    +------------------------------------+
+    =>"""
+    return input(textwrap.dedent(menu))
 
 saldo = 0
 limite = 500
@@ -15,7 +20,7 @@ LIMITE_SAQUES = 3
 
 while True:
 
-    opcao = input(menu)
+    opcao = menu()
 
     if opcao == "d":
         deposito = float(input("Insira um valor para depósito: "))
