@@ -12,6 +12,33 @@ def menu():
     =>"""
     return input(textwrap.dedent(menu))
 
+def sacar(*,saldo, valor, extrato, limite, numero_saques, limite_saques):
+    excedeu_saques = numero_saques >= limite_saques
+    excedeu_limite = valor > limite
+    excedeu_saldo = valor > saldo
+
+    if excedeu_saques:
+        status_operacao = "Operação falhou! Número máximo de saques excedido."
+
+    elif excedeu_limite:
+        status_operacao = "Operação falhou! O valor do saque excede o limite."
+
+    elif excedeu_saldo:
+        status_operacao = "Operação falhou! Você não tem saldo suficiente."
+
+    elif valor > 0:
+        saldo -= valor
+        numero_saques += 1
+        extrato += "|" + f"Saque: R$ {valor:.2f}".center(36) + "|\n"
+        status_operacao = "Saque efetuado com sucesso! Verifique o extrato para mais informações."
+
+    else:
+        status_operacao ="Operação falhou! Valor informado é inválido."
+    
+    print(status_operacao)
+
+    return saldo, extrato, numero_saques
+
 def main():
     saldo = 0
     limite = 500
@@ -35,31 +62,16 @@ def main():
                 print("Valor inválido para depósito. Tente novamente!")
 
         elif opcao == "s":
-            saque = float(input("Insira um valor que deseja sacar: "))
+            valor = float(input("Insira um valor que deseja sacar: "))
 
-            excedeu_saques = numero_saques >= LIMITE_SAQUES
-            excedeu_limite = saque > limite
-            excedeu_saldo = saque > saldo
-
-            if excedeu_saques:
-                status_operacao = "Operação falhou! Número máximo de saques excedido."
-
-            elif excedeu_limite:
-                status_operacao = "Operação falhou! O valor do saque excede o limite."
-
-            elif excedeu_saldo:
-                status_operacao = "Operação falhou! Você não tem saldo suficiente."
-
-            elif saque > 0:
-                saldo -= saque
-                numero_saques += 1
-                extrato += "|" + f"Saque: R$ {saque:.2f}".center(36) + "|\n"
-                status_operacao = "Saque efetuado com sucesso! Verifique o extrato para mais informações."
-
-            else:
-                status_operacao ="Operação falhou! Valor informado é inválido."
-            
-            print(status_operacao)
+            saldo, extrato, numero_saques = sacar(
+                saldo=saldo,
+                valor=valor,
+                extrato=extrato,
+                limite=limite,
+                numero_saques=numero_saques,
+                limite_saques=LIMITE_SAQUES
+            )
 
         elif opcao == "e":
             print("+------------- EXTRATO --------------+")
