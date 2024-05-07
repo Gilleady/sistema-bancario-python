@@ -139,7 +139,7 @@ class Transacao(ABC):
 
 class Deposito(Transacao):
     def __init__(self, valor):
-        self.valor = valor
+        self._valor = valor
 
 
     @property
@@ -156,7 +156,7 @@ class Deposito(Transacao):
 
 class Saque(Transacao):
     def __init__(self, valor):
-        self.valor = valor
+        self._valor = valor
 
 
     @property
