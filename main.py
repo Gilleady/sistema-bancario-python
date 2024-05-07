@@ -184,6 +184,7 @@ class Cliente:
     def adicionar_conta(self, conta):
         self.contas.append(conta)
 
+
 class PessoaFisica(Cliente):
     def __init__(self, cpf, nome, data_nascimento, endereco):
         super().__init__(endereco)
@@ -267,7 +268,7 @@ def exibir_extrato(clientes):
     extrato = ""
 
     for transacao in conta.historico.transacoes:
-        extrato = "|" + f"{transacao.data} - {transacao.tipo}: R$ {transacao.valor:.2f}".center(36) + "|\n"
+        extrato += "|" + f"{transacao["tipo"]}: R$ {transacao["valor"]:.2f}".center(36) + "|\n"
     
     print("+------------- EXTRATO --------------+")
     print("| Não foram realizadas movimentações | " if not extrato else extrato.rstrip())
