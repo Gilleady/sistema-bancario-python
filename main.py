@@ -15,7 +15,7 @@ class ContaIterador:
     def __next__(self):
         try:
             conta = self.contas[self._contador]            
-            lista_contas = str(conta) + "|" + f"Saldo: R$ {conta.saldo:.2f}".center(36) + "|\n"
+            lista_contas = str(conta) + "|" + f"Saldo: R$ {conta.saldo:.2f}".center(98) + "|\n"
             
             return lista_contas
         except IndexError:
@@ -119,10 +119,10 @@ class ContaCorrente(Conta):
 
     
     def __str__(self) -> str:
-        linha = "+" + "-" * 36 + "+\n"
-        linha += "|" + f"Agência: {self.agencia}".center(36) + "|\n"
-        linha += "|" + f"C/C: {self.numero}".center(36) + "|\n"
-        linha += "|" + f"Titular: {self.cliente.nome}".center(36) + "|\n"
+        linha = "+" + "-" * 98 + "+\n"
+        linha += "|" + f"Agência: {self.agencia}".center(98) + "|\n"
+        linha += "|" + f"C/C: {self.numero}".center(98) + "|\n"
+        linha += "|" + f"Titular: {self.cliente.nome}".center(98) + "|\n"
         return linha
 
 
@@ -231,17 +231,17 @@ def log_transacao(func):
 
 
 def menu():
-    menu = """ 
-    +--------- SISTEMA BANCÁRIO ---------+
-    |           [d] Depositar            |
-    |           [s] Sacar                |
-    |           [e] Extrato              |
-    |           [u] Novo Cliente         |
-    |           [c] Nova Conta           |
-    |           [l] Listar Contas        |
-    |           [q] Sair                 |
-    +------------------------------------+
-    =>"""
+    menu = "+" + "-" * 40 + " SISTEMA BANCÁRIO " + "-" * 40 + "+\n"
+    menu += "|" + " [d] Depositar  ".center(98) + "|\n"
+    menu += "|" + "[s] Sacar    ".center(98) + "|\n"
+    menu += "|" + " [e] Extrato   ".center(98) + "|\n"
+    menu += "|" + "   [u] Novo Cliente".center(98) + "|\n"
+    menu += "|" + " [c] Nova Conta".center(98) + "|\n"
+    menu += "|" + "    [l] Listar Contas".center(98) + "|\n"
+    menu += "|" + "[q] Sair     ".center(98) + "|\n"
+    menu += "+" + "-" * 98 + "+\n"
+    menu += "=>"
+    
     return input(textwrap.dedent(menu))
 
 
@@ -310,12 +310,12 @@ def exibir_extrato(clientes):
     tipo_transacao = input("Digite qual tipo de transação para exibir no extrato ('Saque', 'Deposito' ou 'Todos'): ")
 
     for transacao in conta.historico.gerar_relatorio(tipo_transacao):
-        extrato += "|" + f"{transacao["tipo"]}: R$ {transacao["valor"]:.2f}".center(36) + "|\n"
+        extrato += "|" + f"{transacao["data"]} - {transacao["tipo"]}: R$ {transacao["valor"]:.2f}".center(98) + "|\n"
     
-    print("+------------- EXTRATO --------------+")
+    print("+" + "-" * 45 + " EXTRATO " + "-" * 44 + "+")
     print("| Não foram realizadas movimentações | " if not extrato else extrato.rstrip())
-    print("|"+f"Saldo da conta: R$ {conta.saldo:.2f}".center(36)+"|")
-    print("+------------------------------------+")
+    print("|" + f"Saldo da conta: R$ {conta.saldo:.2f}".center(98) + "|")
+    print("+" + "-" * 98 + "+")
 
 
 @log_transacao
@@ -364,7 +364,7 @@ def listar_contas(contas):
     for info_conta in ContaIterador(contas):
         listagem += str(info_conta)
         
-    print(listagem + "+" + "-" * 36 + "+\n" if listagem else "Nenhuma conta para listar")
+    print(listagem + "+" + "-" * 98 + "+\n" if listagem else "Nenhuma conta para listar")
 
 
 def main():
