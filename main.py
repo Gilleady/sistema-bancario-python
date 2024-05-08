@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from datetime import datetime, date
+from datetime import datetime
 import functools
 import textwrap
 
@@ -141,7 +141,7 @@ class Historico:
             {
                 "tipo": transacao.__class__.__name__,
                 "valor": transacao.valor,
-                "data": datetime.now().strftime("%d-%m-%Y %H:%M:%S"),
+                "data": datetime.utcnow().strftime("%d-%m-%Y %H:%M:%S"),
             }
         )
 
@@ -157,7 +157,7 @@ class Historico:
         for transacao in self.transacoes:
             data_transacao = datetime.strptime(transacao["data"], "%d-%m-%Y %H:%M:%S")
             
-            if data_transacao.date() == date.today():
+            if data_transacao.date() == datetime.utcnow.date():
                 qtd_transacoes += 1
         
         return qtd_transacoes
