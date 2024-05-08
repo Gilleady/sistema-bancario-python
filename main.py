@@ -15,7 +15,7 @@ class ContaIterador:
     def __next__(self):
         try:
             conta = self.contas[self._contador]            
-            lista_contas = str(conta) + "|" + f"Saldo: R${conta.saldo:.2f}".center(36) + "|\n"
+            lista_contas = str(conta) + "|" + f"Saldo: R$ {conta.saldo:.2f}".center(36) + "|\n"
             
             return lista_contas
         except IndexError:
@@ -150,7 +150,6 @@ class Historico:
         for transacao in self.transacoes:
             if tipo_transacao is None or transacao["tipo"].lower() == tipo_transacao.lower():
                     yield transacao
-
 
 
 class Transacao(ABC):
@@ -308,9 +307,9 @@ def exibir_extrato(clientes):
     
     extrato = ""
 
-    tipo_relatorio = input("Digite qual tipo de transação para exibir no extrato ('Saque', 'Deposito' ou tecle 'Enter' para exibir todos): ")
+    tipo_transacao = input("Digite qual tipo de transação para exibir no extrato ('Saque', 'Deposito' ou tecle 'Enter' para exibir todos): ")
 
-    for transacao in conta.historico.gerar_relatorio(tipo_relatorio):
+    for transacao in conta.historico.gerar_relatorio(tipo_transacao):
         extrato += "|" + f"{transacao["tipo"]}: R$ {transacao["valor"]:.2f}".center(36) + "|\n"
     
     print("+------------- EXTRATO --------------+")
