@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
+import functools
 import textwrap
 
 
@@ -193,6 +194,15 @@ class PessoaFisica(Cliente):
         self.data_nascimento = data_nascimento
 
 
+def log_transacao(func):
+    @functools.wraps(func)
+    def log(*args, **kwargs):
+        func(*args, **kwargs)
+        print(f"LOGS: {func.__name__} - {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}")
+
+    return log
+
+
 def menu():
     menu = """ 
     +--------- SISTEMA BANCÁRIO ---------+
@@ -217,6 +227,7 @@ def recuperar_conta_cliente(cliente):
     return cliente.contas[0]
 
 
+@log_transacao
 def depositar(clientes):
     cpf = input("Informe o CPF do cliente: ")
     cliente = filtrar_cliente(cpf, clientes)
@@ -235,6 +246,7 @@ def depositar(clientes):
     cliente.realizar_transacao(conta, transacao)
 
 
+@log_transacao
 def sacar(clientes):
     cpf = input("Informe o CPF do cliente: ")
     cliente = filtrar_cliente(cpf, clientes)
@@ -253,6 +265,7 @@ def sacar(clientes):
     cliente.realizar_transacao(conta, transacao)
 
 
+@log_transacao
 def exibir_extrato(clientes):
     cpf = input("Informe o CPF do cliente: ")
     cliente = filtrar_cliente(cpf, clientes)
@@ -276,6 +289,7 @@ def exibir_extrato(clientes):
     print("+------------------------------------+")
 
 
+@log_transacao
 def criar_cliente(clientes):
     cpf = input("Informe o CPF (somente números):")
     cliente = filtrar_cliente(cpf, clientes)
@@ -300,6 +314,7 @@ def filtrar_cliente(cpf, clientes):
     return cliente_filtrado[0] if cliente_filtrado else None
 
 
+@log_transacao
 def criar_conta(numero_conta, contas, clientes):
     cpf = input("Informe o CPF do Cliente (somente números):")
     cliente = filtrar_cliente(cpf, clientes)
