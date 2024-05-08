@@ -292,8 +292,9 @@ def exibir_extrato(clientes):
     
     extrato = ""
 
-    # TODO: atualizar a implementação para utilizar o gerador definido em Historico
-    for transacao in conta.historico.transacoes:
+    tipo_relatorio = input("Digite qual tipo de transação para exibir no extrato ('Saque', 'Deposito' ou tecle 'Enter' para exibir todos): ")
+
+    for transacao in conta.historico.gerar_relatorio(tipo_relatorio):
         extrato += "|" + f"{transacao["tipo"]}: R$ {transacao["valor"]:.2f}".center(36) + "|\n"
     
     print("+------------- EXTRATO --------------+")
