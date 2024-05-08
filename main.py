@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from datetime import datetime
+from datetime import datetime, date
 import functools
 import textwrap
 
@@ -152,6 +152,17 @@ class Historico:
                     yield transacao
 
 
+    def transacoes_do_dia(self):
+        qtd_transacoes = 0
+        for transacao in self.transacoes:
+            data_transacao = datetime.strptime(transacao["data"], "%d-%m-%Y %H:%M:%S")
+            
+            if data_transacao.date() == date.today():
+                qtd_transacoes += 1
+        
+        return qtd_transacoes
+
+
 class Transacao(ABC):
     @property
     @abstractmethod
@@ -241,7 +252,7 @@ def menu():
     menu += "|" + "[q] Sair     ".center(98) + "|\n"
     menu += "+" + "-" * 98 + "+\n"
     menu += "=>"
-    
+
     return input(textwrap.dedent(menu))
 
 
