@@ -216,6 +216,11 @@ class Cliente:
 
 
     def realizar_transacao(self, conta, transacao):
+        qtd_transacoes_dia = conta.historico.transacoes_do_dia()
+        if qtd_transacoes_dia >= 10:
+            print("\n@@@ Você excedeu o número de transações permitidas para hoje! @@@")
+            return
+        
         transacao.registrar(conta)
 
 
