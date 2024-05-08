@@ -4,6 +4,26 @@ import functools
 import textwrap
 
 
+class ContaIterador:
+    def __init__(self, contas):
+        self.contas = contas
+        self.contador = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        try:
+            lista_contas = ""
+            
+            lista_contas += str(self.contas[self.contador]) + "\n|" + f"Saldo: {self.contas[self.contador].saldo}".center(36) + "|\n"
+            self.contador += 1
+            
+            return lista_contas
+        except IndexError:
+            raise StopIteration
+
+
 class Conta:
     def __init__(self, numero, cliente):
         self._saldo = 0
@@ -345,6 +365,7 @@ def criar_conta(numero_conta, contas, clientes):
 
 
 def listar_contas(contas):
+    # TODO: alterar implementação, para utilizar a classe ContaIterador
     lista_contas = ""
     for conta in contas:
         lista_contas += str(conta)
