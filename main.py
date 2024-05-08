@@ -146,9 +146,9 @@ class Historico:
         )
 
 
-    def gerar_relatorio(self, tipo_transacao=None):
+    def gerar_relatorio(self, tipo_transacao="todos"):
         for transacao in self.transacoes:
-            if tipo_transacao is None or transacao["tipo"].lower() == tipo_transacao.lower():
+            if tipo_transacao.lower() == "todos" or transacao["tipo"].lower() == tipo_transacao.lower():
                     yield transacao
 
 
@@ -307,7 +307,7 @@ def exibir_extrato(clientes):
     
     extrato = ""
 
-    tipo_transacao = input("Digite qual tipo de transação para exibir no extrato ('Saque', 'Deposito' ou tecle 'Enter' para exibir todos): ")
+    tipo_transacao = input("Digite qual tipo de transação para exibir no extrato ('Saque', 'Deposito' ou 'Todos'): ")
 
     for transacao in conta.historico.gerar_relatorio(tipo_transacao):
         extrato += "|" + f"{transacao["tipo"]}: R$ {transacao["valor"]:.2f}".center(36) + "|\n"
