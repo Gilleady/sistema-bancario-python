@@ -16,7 +16,7 @@ class ContaIterador:
         try:
             lista_contas = ""
             
-            lista_contas += str(self.contas[self.contador]) + "\n|" + f"Saldo: {self.contas[self.contador].saldo}".center(36) + "|\n"
+            lista_contas += str(self.contas[self.contador]) + "|" + f"Saldo: R${self.contas[self.contador].saldo:.2f}".center(36) + "|\n"
             self.contador += 1
             
             return lista_contas
@@ -365,12 +365,11 @@ def criar_conta(numero_conta, contas, clientes):
 
 
 def listar_contas(contas):
-    # TODO: alterar implementação, para utilizar a classe ContaIterador
-    lista_contas = ""
-    for conta in contas:
-        lista_contas += str(conta)
+    listagem = ""
+    for info_conta in ContaIterador(contas):
+        listagem += str(info_conta)
         
-    print(lista_contas + "+" + "-" * 36 + "+\n" if lista_contas else "Nenhuma conta para listar")
+    print(listagem + "+" + "-" * 36 + "+\n" if listagem else "Nenhuma conta para listar")
 
 
 def main():
