@@ -224,8 +224,9 @@ class PessoaFisica(Cliente):
 def log_transacao(func):
     @functools.wraps(func)
     def log(*args, **kwargs):
-        func(*args, **kwargs)
+        resultado = func(*args, **kwargs)
         print(f"LOGS: {func.__name__} - {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}")
+        return resultado
 
     return log
 
