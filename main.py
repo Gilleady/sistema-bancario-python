@@ -7,21 +7,21 @@ import textwrap
 class ContaIterador:
     def __init__(self, contas):
         self.contas = contas
-        self.contador = 0
+        self._contador = 0
 
     def __iter__(self):
         return self
 
     def __next__(self):
         try:
-            lista_contas = ""
-            
-            lista_contas += str(self.contas[self.contador]) + "|" + f"Saldo: R${self.contas[self.contador].saldo:.2f}".center(36) + "|\n"
-            self.contador += 1
+            conta = self.contas[self._contador]            
+            lista_contas = str(conta) + "|" + f"Saldo: R${conta.saldo:.2f}".center(36) + "|\n"
             
             return lista_contas
         except IndexError:
             raise StopIteration
+        finally:
+            self._contador += 1
 
 
 class Conta:
