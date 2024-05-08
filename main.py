@@ -157,7 +157,7 @@ class Historico:
         for transacao in self.transacoes:
             data_transacao = datetime.strptime(transacao["data"], "%d-%m-%Y %H:%M:%S")
             
-            if data_transacao.date() == datetime.utcnow.date():
+            if data_transacao.date() == datetime.utcnow().date():
                 qtd_transacoes += 1
         
         return qtd_transacoes
