@@ -253,12 +253,7 @@ def log_transacao(func):
         resultado = func(*args, **kwargs)
 
         try:
-            arquivo = open(ROOT_PATH / "logs" / "log.txt", "a", encoding="utf-8")
-            arquivo.close()
-        except FileNotFoundError:
-            os.mkdir(ROOT_PATH / "logs")
-
-        try:
+            os.makedirs(ROOT_PATH / "logs", exist_ok=True)
             with open(ROOT_PATH / "logs" / "log.txt", "a", encoding="utf-8") as arquivo:
                 # TODO: Melhorar exibição de agrs e kwargs.
                 linha = f"[{data_hora}] Função '{func.__name__}' executada com argumentos {args} e {kwargs}. Retornou {resultado}\n"
