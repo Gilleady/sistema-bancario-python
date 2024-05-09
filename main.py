@@ -1,7 +1,11 @@
 from abc import ABC, abstractmethod
 from datetime import datetime, UTC
 import functools
+import os
+from pathlib import Path
 import textwrap
+
+ROOT_PATH = Path(__file__).parent
 
 
 class ContaIterador:
@@ -116,6 +120,9 @@ class ContaCorrente(Conta):
             return super().sacar(valor)
 
         return False
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__}: ('{self.agencia}', '{self.numero}', '{self.cliente.nome}')>"
 
     
     def __str__(self) -> str:
@@ -235,12 +242,33 @@ class PessoaFisica(Cliente):
         self.nome = nome
         self.data_nascimento = data_nascimento
 
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__}: ('{self.cpf}')>"
+
 
 def log_transacao(func):
     @functools.wraps(func)
     def log(*args, **kwargs):
+        data_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         resultado = func(*args, **kwargs)
-        print(f"LOGS: {func.__name__} - {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}")
+
+        try:
+            arquivo = open(ROOT_PATH / "logs" / "log.txt", "a", encoding="utf-8")
+            arquivo.close()
+        except FileNotFoundError:
+            os.mkdir(ROOT_PATH / "logs")
+
+        try:
+            with open(ROOT_PATH / "logs" / "log.txt", "a", encoding="utf-8") as arquivo:
+                # TODO: Melhorar exibição de agrs e kwargs.
+                linha = f"[{data_hora}] Função '{func.__name__}' executada com argumentos {args} e {kwargs}. Retornou {resultado}\n"
+                arquivo.write(linha)
+            
+        except IOError as ex:
+            print(f"Erro ao criar o arquivo: {ex}")
+        except Exception as ex:
+            print(f"Algum problema ocorreu ao tentar abrir o arquivo: {ex}")
+
         return resultado
 
     return log
@@ -329,7 +357,7 @@ def exibir_extrato(clientes):
         extrato += "|" + f"{transacao["data"]} - {transacao["tipo"]}: R$ {transacao["valor"]:.2f}".center(98) + "|\n"
     
     print("+" + "-" * 45 + " EXTRATO " + "-" * 44 + "+")
-    print("| Não foram realizadas movimentações | " if not extrato else extrato.rstrip())
+    print("|" + "Não foram realizadas movimentações".center(98) + "|" if not extrato else extrato.rstrip())
     print("|" + f"Saldo da conta: R$ {conta.saldo:.2f}".center(98) + "|")
     print("+" + "-" * 98 + "+")
 
